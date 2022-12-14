@@ -28,12 +28,15 @@ load_libraries()
 # 7.   Rearrange columns so Dates are at the beginning
 
 
+# ------------------------------------------------------------------------------
+#                             LOAD DATA FROM MySQL
+# ------------------------------------------------------------------------------
 
+# Load data from database(montreal_velo) / table(velo_complete)
 bike_usage <- load_data_from_db("montreal_velo", "velo_complete")
 
-
 # ------------------------------------------------------------------------------
-#                                    OVERVIEW
+#                                   OVERVIEW
 # ------------------------------------------------------------------------------
 
 # First 6 values for all columns
