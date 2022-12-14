@@ -35,6 +35,10 @@ load_libraries()
 # Load data from database(montreal_velo) / table(velo_complete)
 bike_usage <- load_data_from_db("montreal_velo", "velo_complete")
 
+# Loading bicycle counter names
+bike_counters <- load_data_from_db("montreal_velo", "bicycle_counter_names")
+
+
 # ------------------------------------------------------------------------------
 #                                   OVERVIEW
 # ------------------------------------------------------------------------------
@@ -184,7 +188,7 @@ str(velo_db)
 str(velo_db)
 
 # Transform all char columns to int
-velo_db <- column_to_int(velo_db, c(3:62))
+velo_db <- column_to_int(velo_db, c(7:63))
 
 # Rearrange columns to have time, year, month first. Then all other data.
 velo_db <- select(velo_db, 60:62, 3:59)
