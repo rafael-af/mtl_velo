@@ -20,6 +20,16 @@ setwd(working_dir)
 # 4.   Transform string date to POSlx Datetime and add column
 # 5.   Derive the different time columns: year, month, day, hour, minute
 # 6.   Rearrange columns so Dates are at the beginning
+# ----------------------------------------------------------------------
+# 7.   CHECKPOINT No. 1
+#      
+#      Export table into MySQL database for later use
+#      Save as a CSV for redundancy / Tableau export
+# ----------------------------------------------------------------------
+# 8.   RESTARTING POINT
+#
+#      Pick up where you left off
+# ----------------------------------------------------------------------
 
 
 # ------------------------------------------------------------------------------
@@ -53,15 +63,15 @@ bike_usage <- load_data_from_db("montreal_velo", "velo_complete")
 bike_counters <- load_data_from_db("montreal_velo", "bicycle_counter_names")
 
 # ------------------------------------------------------------------------------
-#                                   TRANSFORM
+#                                   TRANSFORM                                / 3
 # ------------------------------------------------------------------------------
+
 
 #                                                              RENAMING COLUMNS 
 # -----------------------------------------------------------------------------
-#                                     Rename the columns to their readable name
 
 # Rename the columns in df using the corresponding values in the Name column 
-# of key_table
+# of key_table / readable name
 
 bike_usage_names <- bike_usage %>% rename_at(vars(
                     compteur_100003034, compteur_100003039, compteur_100057500, 
@@ -101,13 +111,14 @@ describe(bike_usage_names$`Berri No.1`)
 #                                                               DATE AJUSTMENTS
 # -----------------------------------------------------------------------------
 
-# DATETIME String to Year, Month, Day, Time columns -GPT
+# DATETIME String to Year, Month, Day, Time columns -GPT                     / 4
 
 # Convert the datetime strings to POSIXct objects
 bike_usage_names$Datetime <- strptime(
                                   bike_usage$Date, format = "%Y-%m-%d %H:%M:%S")
 
-# Split the datetime column into separate year, month, day, and time columns
+# Split the datetime column into separate columns                            / 5
+# year, month, day, and time columns
 bike_usage_names$year <- year(bike_usage_names$Datetime)
 bike_usage_names$month <- month(bike_usage_names$Datetime)
 bike_usage_names$day <- day(bike_usage_names$Datetime)
@@ -120,28 +131,11 @@ str(bike_usage_names)
 
 describe(bike_usage_names$minute)
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-
-# Change date column stored as string into its POSIXct format
-date_temp <- as.POSIXct(bike_usage$Date, tz = "EST")
-
-# Confirm the change
-min(date_temp)
-
-
-str(bike_counters)
-
-# Select columns from one dataframe, and store it in another
-counter_names <- bike_counters %>% select(Data_Code, Name)
-
-
-
 #                                                           REARRANGING COLUMNS 
 # -----------------------------------------------------------------------------
 #                                            Reorder the columns in a dataframe
 
-# Rearrange columns in dataframe // Data starts in column 7
+# Rearrange columns in dataframe // Data starts in column 7                  / 6
 bike_usage_names_reordered <- select(bike_usage_names, 60:65, 3:59, 1:2)
 
 head(bike_usage_names_reordered)
@@ -150,16 +144,21 @@ head(bike_usage_names_reordered)
 #                                   CHECKPOINT
 # ------------------------------------------------------------------------------
 
-# create a copy of the bike_usage_names dataframe
+# create a copy of the bike_usage_names dataframe                            / 7
 velo_db <- bike_usage_names_reordered
 
 # Store velo_db in MySQL to make it easier to retrieve checkpoint
 dbWriteTable(mysqlconnection, "velo_database", velo_db, overwrite = TRUE)
 
-# Write a CSV to be able to work with in Tableau maybe?
-write.csv(velo_db, "velo_database.csv")
+# Use this function to export out of repository
+exportCSVout(velo_db, "velo_database.csv")
 
+# Confirm structure of final state dataframe
 str(velo_db)
+
+# ------------------------------------------------------------------------------
+#                                RESTARTING POINT                            / 8
+# ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 #                               TRANSFORMING DATA

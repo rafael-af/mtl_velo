@@ -98,3 +98,14 @@ date_window <- function(data, start_date, end_date) {
   
   return(subset)
 }
+
+#                                                  EXPORT CSV OUTSIDE REPOSITORY
+# ------------------------------------------------------------------------------
+
+# Exports a CSV file, outside the working directory to a folder called Exports
+exportCSVout <- function(data, fileName) {
+  
+  filePath <- file.path("..", "Exports", fileName)
+  write.csv(data, file = filePath, row.names = FALSE)
+
+}
