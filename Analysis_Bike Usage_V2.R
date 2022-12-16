@@ -10,26 +10,40 @@ working_dir <-
 setwd(working_dir)
 
 # ------------------------------------------------------------------------------
-#                                   LIBRARIES
-# ------------------------------------------------------------------------------
-
-load_libraries()
-
-# ------------------------------------------------------------------------------
 #                               STEPS OF THE PROCESS
 # ------------------------------------------------------------------------------
 
+# 0.   Install Helper function
 # 1.   Install Packages (Run function)
 # 2.   Load Data from MySQL
-# 3.   Load Functions to be used
-# 4.   Create bike_usage_names table in the Transform section
-# 5.   Transform string date to POSlx Datetime and add column
-# 6.   Derive the different time columns: year, month, day, hour, minute
-# 7.   Rearrange columns so Dates are at the beginning
+# 3.   Create bike_usage_names table in the Transform section
+# 4.   Transform string date to POSlx Datetime and add column
+# 5.   Derive the different time columns: year, month, day, hour, minute
+# 6.   Rearrange columns so Dates are at the beginning
 
 
 # ------------------------------------------------------------------------------
-#                             LOAD DATA FROM MySQL
+#                                 HELPER FUNCTION                            / 0
+# ------------------------------------------------------------------------------
+
+# This function will help run any scripts that may be necessary at the beginning 
+# of the process
+runScript <- function(scriptName) {
+  source(scriptName)
+}
+
+# ------------------------------------------------------------------------------
+#                                   LIBRARIES                                / 1
+# ------------------------------------------------------------------------------
+
+# Run the functions script first
+runScript('Script_Functions_V1.R')  
+
+# Function is now available
+load_libraries()
+
+# ------------------------------------------------------------------------------
+#                             LOAD DATA FROM MySQL                           / 2
 # ------------------------------------------------------------------------------
 
 # Load data from database(montreal_velo) / table(velo_complete)
@@ -37,38 +51,6 @@ bike_usage <- load_data_from_db("montreal_velo", "velo_complete")
 
 # Loading bicycle counter names
 bike_counters <- load_data_from_db("montreal_velo", "bicycle_counter_names")
-
-
-# ------------------------------------------------------------------------------
-#                                   OVERVIEW
-# ------------------------------------------------------------------------------
-
-# First 6 values for all columns
-head(bike_usage)
-
-# All columns horizontally spread
-glimpse(bike_usage)
-
-# All columns horizontally spread
-str(bike_usage)
-
-# Data Summary / Column Types / Variable Types
-skim_without_charts(bike_usage)
-
-# Describe (Hmisc Library)
-describe(bike_usage_names)
-
-
-# ------------------------------------------------------------------------------
-#                                    ANALYSIS
-# ------------------------------------------------------------------------------
-
-# Calculate mean
-mean(bike_usage$compteur_100003034, na.rm = TRUE)
-
-# Part of Hmisc library. Detailed description
-describe(bike_usage_names$`Berri No.1`)
-
 
 # ------------------------------------------------------------------------------
 #                                   TRANSFORM

@@ -83,6 +83,8 @@ load_libraries <- function() {
   install.packages("credentials")
   library(credentials)
   
+  install.packages("esquisse")
+  library(esquisse)
 }
 
 #                                                                    DATE WINDOW
