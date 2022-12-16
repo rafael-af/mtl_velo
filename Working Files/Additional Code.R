@@ -18,7 +18,6 @@ skim_without_charts(bike_usage)
 # Describe (Hmisc Library)
 describe(bike_usage_names)
 
-
 # ------------------------------------------------------------------------------
 #                                    ANALYSIS
 # ------------------------------------------------------------------------------
@@ -28,7 +27,6 @@ mean(bike_usage$compteur_100003034, na.rm = TRUE)
 
 # Part of Hmisc library. Detailed description
 describe(bike_usage_names$`Berri No.1`)
-
 
 #                                                               DATE AJUSTMENTS
 # -----------------------------------------------------------------------------

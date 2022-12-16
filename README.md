@@ -28,6 +28,11 @@ NOTES
 
 Also, this seems to be a better place to include this information. I found someone online suggesting this fix below in case you simplify the process when working with SSH authentication. In my case, I've reverted to PAT, so this probably won't be necessary.
 
-# SSH Use Case
-# ------------
-# git config --global --add url."git@github.com:".insteadOf "https://github.com/"
+SSH Use Case
+------------
+git config --global --add url."git@github.com:".insteadOf "https://github.com/"
+
+
+To be continued: 
+---------------
+Next is working on visualizing the data and testing different tools to achieve it. I'll be trying plotly next.
