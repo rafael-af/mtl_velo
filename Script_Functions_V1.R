@@ -8,6 +8,10 @@ load_data_from_db <- function(db_name, db_table) {
   library(DBI)
   library(RMySQL)
   
+  # # Function testing
+  # db_name <- "montreal_velo"
+  # db_table <- "velo_database"
+  
   # Connect to MySQL database
   mysqlconnection = dbConnect(RMySQL::MySQL(),
                               dbname=db_name,
@@ -20,8 +24,11 @@ load_data_from_db <- function(db_name, db_table) {
   # Select * From db_table
   result <- dbSendQuery(mysqlconnection, paste0("select * from ", db_table))
   
+  # # Testing connection
+  # dbGetInfo(mysqlconnection)
+  
   # Return the fetch result
-  fetch(result, n=-1)
+  data <- fetch(result, n=-1)
 
 }
 
